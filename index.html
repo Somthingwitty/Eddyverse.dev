@@ -1,51 +1,126 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Eddyverse.dev 🚀</title>
-    <style>
-      body {
-        background: black;
-        color: #00ffee;
-        font-family: monospace;
-        padding: 40px;
-        text-shadow: 0 0 5px #00ffee;
-      }
-      h1 {
-        font-size: 3em;
-        animation: flicker 1.2s infinite alternate;
-      }
-      a {
-        color: #ff00ff;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      @keyframes flicker {
-        0% { opacity: 1; }
-        100% { opacity: 0.6; }
-      }
-    </style>
-  </head>
-  <body>
-    <h1>🧠 WELCOME TO EDDYVERSE.DEV</h1>
-    <p>This is the hub for all things genius, chaotic, and possibly illegal ✨</p>
+<head>
+  <meta charset="UTF-8" />
+  <title>Eddyverse Project Gallery</title>
+  <style>
+    body {
+      background-color: black;
+      color: #00ffee;
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      padding: 20px;
+      font-size: 3em;
+      text-shadow: 0 0 10px #00ffee;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #111;
+      border: 2px solid #00ffee;
+      padding: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 200px;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #00ffee;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .modal-content {
+      background: #111;
+      border: 2px solid #00ffee;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: left;
+      max-width: 500px;
+    }
+    .modal img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .close-btn {
+      margin-top: 10px;
+      padding: 5px 15px;
+      background-color: #00ffee;
+      border: none;
+      font-family: monospace;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 EDDYVERSE PROJECTS</h1>
+  <div class="gallery">
+    <div class="card" onclick="showModal('vanta')">
+      <img src="vanta.jpg" alt="Vanta Project">
+      <p>Vanta Assistant</p>
+    </div>
+    <div class="card" onclick="showModal('snackbot')">
+      <img src="snackbot.jpg" alt="SnackBot Project">
+      <p>SnackBot 3000</p>
+    </div>
+  </div>
 
-    <h2>🛠️ Projects</h2>
-    <ul>
-      <li>🤖 Vanta Core OS</li>
-      <li>🧤 Exoskin Glove w/ laser cat mode</li>
-      <li>🚪 Awesome Door™ (face ID, lasers, zap mode)</li>
-      <li>🍪 SnackBot 3000 – delivers Crumbl to Randy</li>
-    </ul>
+  <div id="modal" class="modal">
+    <div class="modal-content" id="modalContent">
+      <img id="modalImg" src="" alt="">
+      <p id="modalText"></p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
 
-    <h2>💸 Passive Income Stuff</h2>
-    <p><a href="#">Coming soon: Gumroad Store</a></p>
+  <script>
+    const projects = {
+      vanta: {
+        img: "vanta.jpg",
+        desc: "Vanta is your AI sidekick. Talks, learns, and zaps intruders with sarcasm."
+      },
+      snackbot: {
+        img: "snackbot.jpg",
+        desc: "SnackBot is a drone that delivers Crumbl cookies. Because why walk when you can fly sugar?"
+      }
+    };
 
-    <footer>
-      <hr />
-      <p>Made with freeze rays & sarcasm | © Eddy 2025</p>
-    </footer>
-  </body>
+    function showModal(project) {
+      const data = projects[project];
+      document.getElementById("modalImg").src = data.img;
+      document.getElementById("modalText").innerText = data.desc;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+</body>
 </html>
