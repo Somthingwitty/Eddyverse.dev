@@ -1,4 +1,8 @@
+from pathlib import Path
+from zipfile import ZipFile
 
+# Full updated HTML with the new "About Eddy" card added
+html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +10,8 @@
   <title>Eddyverse Project Gallery</title>
   <style>
     body {
-      background-color: black;
-      color: #00ffee;
+      background-color: #000;
+      color: #0ff;
       font-family: monospace;
       margin: 0;
       padding: 0;
@@ -16,7 +20,7 @@
     h1 {
       padding: 20px;
       font-size: 3em;
-      text-shadow: 0 0 10px #00ffee;
+      text-shadow: 0 0 10px #0ff;
     }
     .gallery {
       display: flex;
@@ -27,50 +31,58 @@
     }
     .card {
       background: #111;
-      border: 2px solid #00ffee;
+      border: 2px solid #0ff;
       padding: 10px;
       border-radius: 12px;
       cursor: pointer;
-      width: 200px;
-      transition: transform 0.3s;
+      width: 180px;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
     .card:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 15px #00ffee;
+      box-shadow: 0 0 15px #0ff;
     }
     .card img {
       width: 100%;
+      height: 120px;
+      object-fit: cover;
       border-radius: 8px;
+    }
+    .card p {
+      margin: 10px 0 0;
+      font-weight: bold;
+      color: #0ff;
     }
     .modal {
       display: none;
       position: fixed;
       z-index: 999;
-      left: 0;
       top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(0,0,0,0.95);
       justify-content: center;
       align-items: center;
-      flex-direction: column;
     }
     .modal-content {
       background: #111;
-      border: 2px solid #00ffee;
+      border: 2px solid #0ff;
       padding: 20px;
       border-radius: 12px;
       text-align: left;
       max-width: 500px;
+      color: #0ff;
     }
-    .modal img {
+    .modal-content img {
       width: 100%;
       border-radius: 8px;
+      margin-bottom: 10px;
     }
     .close-btn {
       margin-top: 10px;
       padding: 5px 15px;
-      background-color: #00ffee;
+      background-color: #0ff;
       border: none;
       font-family: monospace;
       font-size: 1em;
@@ -81,18 +93,21 @@
 <body>
   <h1>🧠 EDDYVERSE PROJECTS</h1>
   <div class="gallery">
-    <div class="card" onclick="showModal('vanta')">
-      <img src="vanta.jpg" alt="Vanta Project">
-      <p>Vanta Assistant</p>
-    </div>
-    <div class="card" onclick="showModal('snackbot')">
-      <img src="snackbot.jpg" alt="SnackBot Project">
-      <p>SnackBot 3000</p>
-    </div>
+    <div class="card" onclick="showModal('floof')"><img src="floof-detector.jpg"><p>Unauthorized Floof Detector</p></div>
+    <div class="card" onclick="showModal('arm')"><img src="assembly-arm.jpg"><p>Precision Assembly Arm</p></div>
+    <div class="card" onclick="showModal('japan')"><img src="japan-dome-xd.jpg"><p>Japan-Dome-XD</p></div>
+    <div class="card" onclick="showModal('helmet')"><img src="dual-hud-helmet.jpg"><p>Dual-HUD Helmet</p></div>
+    <div class="card" onclick="showModal('vanta')"><img src="vanta-blueprint.jpg"><p>Vanta Voice Assistant</p></div>
+    <div class="card" onclick="showModal('glove')"><img src="exoskin-glove.jpg"><p>Vanta Exoskin Glove</p></div>
+    <div class="card" onclick="showModal('glasses')"><img src="breach-glasses.jpg"><p>Dimensional Breach Glasses</p></div>
+    <div class="card" onclick="showModal('eye')"><img src="vanta-eye.jpg"><p>Vanta’s Eye Cam</p></div>
+    <div class="card" onclick="showModal('chaos')"><img src="chaos-mode.jpg"><p>Chaos Test Mode</p></div>
+    <div class="card" onclick="showModal('collar')"><img src="cat-collar.jpg"><p>Overkill Cat Collar</p></div>
+    <div class="card" onclick="showModal('about')"><img src="moce-control-room.jpg"><p>The MOCE Control Room</p></div>
   </div>
 
-  <div id="modal" class="modal">
-    <div class="modal-content" id="modalContent">
+  <div id="modal" class="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
       <img id="modalImg" src="" alt="">
       <p id="modalText"></p>
       <button class="close-btn" onclick="closeModal()">Close</button>
@@ -101,18 +116,54 @@
 
   <script>
     const projects = {
-      vanta: {
-        img: "vanta.jpg",
-        desc: "Vanta is your AI sidekick. Talks, learns, and zaps intruders with sarcasm."
+      floof: {
+        img: "floof-detector.jpg",
+        desc: "Infrared motion + pressure pads + camera combo that yanks unauthorized pets off the bed mid-yeet."
       },
-      snackbot: {
-        img: "snackbot.jpg",
-        desc: "SnackBot is a drone that delivers Crumbl cookies. Because why walk when you can fly sugar?"
+      arm: {
+        img: "assembly-arm.jpg",
+        desc: "High-precision robotic arm for soldering, 3D-printing post-processing, or perfect snack assembly."
+      },
+      japan: {
+        img: "japan-dome-xd.jpg",
+        desc: "Router-wide VPN tunnel that makes your whole network appear in Tokyo. Japan-Dome-XD: active."
+      },
+      helmet: {
+        img: "dual-hud-helmet.jpg",
+        desc: "Transparent OLED dual-HUD helmet for real-time stats, maps, and occasional meme display."
+      },
+      vanta: {
+        img: "vanta-blueprint.jpg",
+        desc: "Modular voice assistant shell with NeoPixel core, Chaos Mode port, and USB-C data link."
+      },
+      glove: {
+        img: "exoskin-glove.jpg",
+        desc: "Gesture-controlled exoskin glove with laser pointer, magnetic grapple, and haptic chaos alerts."
+      },
+      glasses: {
+        img: "breach-glasses.jpg",
+        desc: "Augmented-reality specs that flash 'Dimensional Breach Detected' when cosmic portals pop."
+      },
+      eye: {
+        img: "vanta-eye.jpg",
+        desc: "Ceiling-mounted Vanta camera module for 360° surveillance and untimely Floof ejections."
+      },
+      chaos: {
+        img: "chaos-mode.jpg",
+        desc: "Portable Chaos Test unit with override button—injects random module chaos into Vanta’s brain."
+      },
+      collar: {
+        img: "cat-collar.jpg",
+        desc: "Smart cat collar that preps your floof for missions—'Reboy for mission' status LED included."
+      },
+      about: {
+        img: "moce-control-room.jpg",
+        desc: "Where it all begins. This is where Eddy codes chaos, dreams big, and makes the impossible kinda probable. Powered by cold air, cats, and sheer genius."
       }
     };
 
-    function showModal(project) {
-      const data = projects[project];
+    function showModal(key) {
+      const data = projects[key];
       document.getElementById("modalImg").src = data.img;
       document.getElementById("modalText").innerText = data.desc;
       document.getElementById("modal").style.display = "flex";
@@ -124,3 +175,17 @@
   </script>
 </body>
 </html>
+"""
+
+# Save HTML to a file
+output_dir = Path("/mnt/data/eddyverse_site_full")
+output_dir.mkdir(parents=True, exist_ok=True)
+html_path = output_dir / "index.html"
+html_path.write_text(html_content)
+
+# Create a ZIP of the full site
+zip_path = Path("/mnt/data/eddyverse_site_FULL.zip")
+with ZipFile(zip_path, "w") as zipf:
+    zipf.write(html_path, arcname="index.html")
+
+zip_path
