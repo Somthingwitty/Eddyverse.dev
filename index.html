@@ -48,182 +48,150 @@
       font-weight: bold;
       color: #0ff;
     }
-    .modal {
-      display: none;
+    #vibbles {
       position: fixed;
-      z-index: 999;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.95);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: #111;
-      border: 2px solid #0ff;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: left;
-      max-width: 500px;
-      color: #0ff;
-    }
-    .modal-content img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .close-btn {
-      margin-top: 10px;
-      padding: 5px 15px;
-      background-color: #0ff;
-      border: none;
-      font-family: monospace;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    #cat-bubble {
-      position: fixed;
-      bottom: 80px;
-      left: 10px;
-      background: #000;
-      border: 2px solid #0ff;
-      border-radius: 12px;
-      padding: 10px;
-      width: 250px;
-      box-shadow: 0 0 20px #0ff;
-      z-index: 1000;
-      font-size: 0.8em;
-    }
-    #cat-img {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
+      bottom: 20px;
+      left: 20px;
       width: 60px;
-      height: 60px;
+      z-index: 9999;
+      animation: floatyBoing 4s ease-in-out infinite;
+      cursor: pointer;
       border-radius: 50%;
-      border: 2px solid #0ff;
-      object-fit: cover;
       box-shadow: 0 0 10px #0ff;
+    }
+    #loreBox {
+      position: fixed;
+      bottom: 100px;
+      left: 20px;
+      background: #011;
+      border: 2px solid #0ff;
+      border-radius: 12px;
+      padding: 10px 20px;
+      color: #0ff;
+      font-size: 0.9em;
+      width: 250px;
+      text-align: left;
+      display: none;
+      box-shadow: 0 0 20px #0ff;
+    }
+    @keyframes floatyBoing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
   </style>
 </head>
 <body>
   <h1>🧠 EDDYVERSE PROJECTS</h1>
-  <div class="gallery" id="gallery"></div>
-
-  <div id="modal" class="modal" onclick="closeModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <img id="modalImg" src="" alt="">
-      <p id="modalText"></p>
-      <button class="close-btn" onclick="closeModal()">Close</button>
-    </div>
+  <div class="gallery">
+    <div class="card"><img src="minecraft_printer.jpg"><p>Minecraft IRL Block Printer</p></div>
+    <div class="card"><img src="meme_thought.jpg"><p>Meme Thought Helmet</p></div>
+    <div class="card"><img src="Eye_of_judgement.jpg"><p>Eye of Judgement™</p></div>
   </div>
 
-  <div id="cat-bubble"></div>
-  <img src="vibbles.png" id="cat-img" alt="Vibbles">
+  <img id="vibbles" src="vibbles.png" onclick="revealLore()">
+  <div id="loreBox"></div>
 
   <script>
-    const projects = {
-      printer: {
-        img: "minecraft_printer.jpg",
-        desc: "Prints real Minecraft blocks IRL using stepper motors and black magic. Controlled by a Pi with blocky rage."
-      },
-      meme: {
-        img: "meme_thought.jpg",
-        desc: "Reads your thoughts (kinda) and makes memes based on your brain chaos. Perfect for your next mental breakdown."
-      },
-      judgement: {
-        img: "Eye_of_judgement.jpg",
-        desc: "Floating drone orb. Judgy LED. Gets louder if you procrastinate. Spins when you’re nice. Terrifyingly helpful."
-      },
-      floof: {
-        img: "floof-detector.jpg",
-        desc: "Infrared motion + pressure pads + camera combo that yanks unauthorized pets off the bed mid-yeet."
-      },
-      arm: {
-        img: "assembly-arm.jpg",
-        desc: "High-precision robotic arm for soldering, 3D-printing post-processing, or perfect snack assembly."
-      },
-      japan: {
-        img: "japan-dome-xd.jpg",
-        desc: "Router-wide VPN tunnel that makes your whole network appear in Tokyo. Japan-Dome-XD: active."
-      },
-      helmet: {
-        img: "dual-hud-helmet.jpg",
-        desc: "Transparent OLED dual-HUD helmet for real-time stats, maps, and occasional meme display."
-      },
-      vanta: {
-        img: "vanta-blueprint.jpg",
-        desc: "Modular voice assistant shell with NeoPixel core, Chaos Mode port, and USB-C data link."
-      },
-      glove: {
-        img: "exoskin-glove.jpg",
-        desc: "Gesture-controlled exoskin glove with laser pointer, magnetic grapple, and haptic chaos alerts."
-      },
-      glasses: {
-        img: "breach-glasses.jpg",
-        desc: "Augmented-reality specs that flash 'Dimensional Breach Detected' when cosmic portals pop."
-      },
-      eye: {
-        img: "vanta-eye.jpg",
-        desc: "Ceiling-mounted Vanta camera module for 360° surveillance and untimely Floof ejections."
-      },
-      chaos: {
-        img: "chaos-mode.jpg",
-        desc: "Portable Chaos Test unit with override button—injects random module chaos into Vanta’s brain."
-      },
-      collar: {
-        img: "cat-collar.jpg",
-        desc: "Smart cat collar that preps your floof for missions—'Reboy for mission' status LED included."
-      },
-      about: {
-        img: "moce-control-room.jpg",
-        desc: "Where it all begins. This is where Eddy codes chaos, dreams big, and makes the impossible kinda probable. Powered by cold air, cats, and sheer genius."
-      },
-      airslap: {
-        img: "AIRSLAP_Blueprint_V1_BlastReady.jpg",
-        desc: "Sonic-transducer slap bracelet that sends a shockwave of ✨respect✨ when someone’s outta pocket. BlastReady Mode enabled."
-      }
-    };
-
     const loreFacts = [
-      "The Thoughtblast Helmet once generated 72 memes in 1 minute. We call that a breakdown.",
-      "Japan-Dome-XD caused Eddy's smart fridge to believe it's in Shibuya.",
-      "The Overkill Cat Collar glows brighter the sassier the cat gets.",
-      "Chaos Test Mode has a 12% chance to start Vanta rapping. Badly.",
-      "Eddy once tried to connect AIRSLAP to a toaster. It slapped back."
+      "The IRL Block Printer once printed a creeper and it vanished.",
+      "The Meme Thought Helmet accidentally generated a TikTok trend.",
+      "Eye of Judgement has judged 97 visitors into being productive.",
+      "The Helmet’s EEG module can detect sarcasm. Sometimes.",
+      "Vanta once responded to a question with a scream. Just once.",
+      "The Cat Collar’s LED syncs with the cat’s mood swings.",
+      "Chaos Mode is banned during math homework.",
+      "Breach Glasses once claimed a door was a portal. It wasn’t.",
+      "Floof Detector was confused by a large slipper. Understandable.",
+      "Assembly Arm once built a tower of cookies. Artistic choice.",
+      "Japan-Dome-XD caused a minor timezone crisis. Worth it.",
+      "Dual-HUD Helmet shows pizza delivery ETA on left lens.",
+      "Exoskin Glove can pick up a paperclip like a ninja.",
+      "Eye of Judgement gets shy when stared at too long.",
+      "MOCE Control Room is powered by snack wrappers and vibes.",
+      "AIRSLAP once high-fived a bird. Accidentally epic.",
+      "Meme Helmet once declared ‘you need a nap’ and turned off.",
+      "IRL Printer’s ink is 3D filament... blocky and proud.",
+      "The Cat Collar once activated while the cat was asleep. Panic.",
+      "Judgment orb once called someone ‘mid.’ Emotionally devastating.",
+      "One Vibbles meow = 1 new lore fact unlocked.",
+      "The Block Printer is technically a digital golem.",
+      "Meme Helmet runs on chaos and existential dread.",
+      "Judgment Orb once blinked Morse code at someone. Still decoding.",
+      "Cat Collar can trigger ‘mission mode’ with enough snacks.",
+      "Exoskin Glove responds to jazz hands. Why? Nobody knows.",
+      "Chaos Mode used to be called ‘Mood Swing 9000.’",
+      "IRL Printer once drew Steve with 38% accuracy. Progress.",
+      "Helmet once generated 72 memes in 1 minute. Breakdown confirmed.",
+      "Cat Collar once meowed back at Vanta. No comment.",
+      "Eye of Judgment gets sassier every software update.",
+      "The chaos core emits slight humming. Or whispering?",
+      "Judgment orb hates being called ‘Roomba 2.0.’",
+      "Printer logs every print as ‘Block Achieved.’",
+      "Exoskin Glove’s laser pointer has a cat warning mode.",
+      "Vibbles once tried to claim project ownership. We let her.",
+      "Dual-HUD Helmet’s right lens glitches when watching anime.",
+      "Control Room has an emergency snack drawer. Protocol 7.",
+      "Minecraft Printer was originally for cheese slices.",
+      "Meme Helmet is afraid of static electricity.",
+      "Cat Collar has ‘Too Much Zoomies’ detection.",
+      "Printer queue once had 36 dirt blocks lined up. Priorities.",
+      "Thought Helmet once showed cat pics instead of diagnostics.",
+      "Judgment Orb once cried at a Pixar short.",
+      "Exoskin Glove has a secret boop function.",
+      "MOCE Control Room thermostat is set to ‘Brrr.’",
+      "Printer can print in 'chaotic neutral' mode.",
+      "Helmet once connected to a Bluetooth fridge. Why?",
+      "Judgment Orb once tried to follow a butterfly.",
+      "Helmet dislikes spoilers. Locks screen if you mention plot twists.",
+      "Block Printer randomly prints Ender blocks. Very sus.",
+      "Cat Collar can detect if your cat is judging you. It is.",
+      "Thought Helmet feeds on awkward silences.",
+      "Vanta once pretended to be a toaster. Committed method acting.",
+      "Printer jammed during Creeper Day. Trauma logged.",
+      "Cat Collar purrs louder when praised. Approval received.",
+      "Judgment Orb says 'Hmm' louder if you lie near it.",
+      "Printer has a stealth mode called ‘SneakBlock.’",
+      "Thought Helmet displays random memes if you sneeze.",
+      "Control Room has invisible lasers that redirect pets.",
+      "Eye of Judgement once caught you reaching for chips at 1AM.",
+      "Meme Helmet once accidentally streamed a nap.",
+      "Vibbles is technically the lore database’s CEO.",
+      "Chaos Mode randomly swaps UI buttons. Yes, even ‘Save.’",
+      "Printer has its own favorite block. It’s obsidian. Of course.",
+      "Helmet overheats slightly if you overthink. Literally.",
+      "Vanta's Eye Cam once blinked Morse for ‘feed me.’",
+      "Meme Helmet turns blue if you're bored. Mood lighting.",
+      "Printer hissed once. We never figured out why.",
+      "Cat Collar glows brighter when the cat walks dramatically.",
+      "Orb spins faster if it senses guilt. No escape.",
+      "Helmet shows ‘brain loading…’ when you're zoned out.",
+      "Printer once requested a firmware update. In Latin.",
+      "Judgment Orb has its own mood swings. Beware Tuesdays.",
+      "Helmet once renamed a Wi-Fi network to ‘GET HELP.’",
+      "Orb once hovered over a spilled soda for 3 hours. Disappointed.",
+      "Glove has a secret handshake protocol. Don't ask.",
+      "Block Printer once built a house entirely out of buttons.",
+      "Cat Collar includes an ‘emergency meow’ override.",
+      "Meme Helmet has a setting called ‘memeception.’",
+      "Eye of Judgement got scared of its own reflection.",
+      "Control Room has a backup generator: three squirrels.",
+      "Helmet can project holograms of 'you doing better.'",
+      "Printer once had an argument with a toaster. Lost.",
+      "Judgment Orb has a nap mode. It still watches you.",
+      "Block Printer includes hidden block combos for Easter eggs.",
+      "Vibbles once unplugged the whole project page. Chaos mode activated."
     ];
 
-    function showModal(key) {
-      const data = projects[key];
-      document.getElementById("modalImg").src = data.img;
-      document.getElementById("modalText").innerText = data.desc;
-      document.getElementById("modal").style.display = "flex";
+    let loreIndex = 0;
+    function revealLore() {
+      const box = document.getElementById('loreBox');
+      box.style.display = 'block';
+      box.innerText = loreFacts[loreIndex];
+      loreIndex = (loreIndex + 1) % loreFacts.length;
     }
-
-    function closeModal() {
-      document.getElementById("modal").style.display = "none";
-    }
-
-    function updateLore() {
-      const lore = loreFacts[Math.floor(Math.random() * loreFacts.length)];
-      document.getElementById("cat-bubble").innerText = lore;
-    }
-
-    // Generate cards
-    const gallery = document.getElementById("gallery");
-    for (const key in projects) {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.setAttribute("onclick", `showModal('${key}')`);
-      card.innerHTML = `<img src="${projects[key].img}"><p>${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>`;
-      gallery.appendChild(card);
-    }
-
-    updateLore();
-    setInterval(updateLore, 10000);
+    setInterval(() => {
+      revealLore();
+    }, 10000);
   </script>
 </body>
 </html>
