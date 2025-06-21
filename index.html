@@ -71,7 +71,7 @@
       font-size: 0.9em;
       width: 250px;
       text-align: left;
-      display: none;
+      display: block;
       box-shadow: 0 0 20px #0ff;
     }
     @keyframes floatyBoing {
@@ -83,140 +83,214 @@
 <body>
   <h1>🧠 EDDYVERSE PROJECTS</h1>
   <div class="gallery">
-    <div class="card"><img src="floof-detector.jpg"><p>Unauthorized Floof Detector</p></div>
-    <div class="card"><img src="assembly-arm.jpg"><p>Precision Assembly Arm</p></div>
-    <div class="card"><img src="japan-dome-xd.jpg"><p>Japan-Dome-XD</p></div>
-    <div class="card"><img src="dual-hud-helmet.jpg"><p>Dual-HUD Helmet</p></div>
-    <div class="card"><img src="vanta-blueprint.jpg"><p>Vanta Voice Assistant</p></div>
-    <div class="card"><img src="exoskin-glove.jpg"><p>Vanta Exoskin Glove</p></div>
-    <div class="card"><img src="breach-glasses.jpg"><p>Dimensional Breach Glasses</p></div>
-    <div class="card"><img src="vanta-eye.jpg"><p>Vanta’s Eye Cam</p></div>
-    <div class="card"><img src="chaos-mode.jpg"><p>Chaos Test Mode</p></div>
-    <div class="card"><img src="cat-collar.jpg"><p>Overkill Cat Collar</p></div>
-    <div class="card"><img src="moce-control-room.jpg"><p>The MOCE Control Room</p></div>
-    <div class="card"><img src="minecraft_printer.jpg"><p>Minecraft IRL Block Printer</p></div>
-    <div class="card"><img src="meme_thought.jpg"><p>Meme Thought Helmet</p></div>
-    <div class="card"><img src="Eye_of_judgement.jpg"><p>Eye of Judgement™</p></div>
-    <div class="card"><img src="AIRSLAP_Blueprint_V1_BlastReady.jpg"><p>AIRSLAP Bracelet</p></div>
+    <div class="card" onclick="showModal('vanta')"><img src="vanta-blueprint.jpg"><p>Vanta Voice Assistant</p></div>
+    <div class="card" onclick="showModal('glove')"><img src="exoskin-glove.jpg"><p>Vanta Exoskin Glove</p></div>
+    <div class="card" onclick="showModal('meme')"><img src="meme_thought.jpg"><p>Meme Thought Helmet</p></div>
+    <div class="card" onclick="showModal('printer')"><img src="minecraft_printer.jpg"><p>Minecraft IRL Block Printer</p></div>
+    <div class="card" onclick="showModal('judgement')"><img src="Eye_of_judgement.jpg"><p>Eye of Judgement</p></div>
+    <div class="card" onclick="showModal('airslap')"><img src="AIRSLAP_Blueprint_V1_BlastReady.jpg"><p>AIRSLAP Bracelet</p></div>
+    <div class="card" onclick="showModal('collar')"><img src="cat-collar.jpg"><p>Overkill Cat Collar</p></div>
+    <div class="card" onclick="showModal('about')"><img src="moce-control-room.jpg"><p>The MOCE Control Room</p></div>
+    <div class="card" onclick="showModal('chaos')"><img src="chaos-mode.jpg"><p>Chaos Test Mode</p></div>
+    <div class="card" onclick="showModal('glasses')"><img src="breach-glasses.jpg"><p>Dimensional Breach Glasses</p></div>
+    <div class="card" onclick="showModal('eye')"><img src="vanta-eye.jpg"><p>Vanta's Eye Cam</p></div>
+    <div class="card" onclick="showModal('helmet')"><img src="dual-hud-helmet.jpg"><p>Dual-HUD Helmet</p></div>
+    <div class="card" onclick="showModal('japan')"><img src="japan-dome-xd.jpg"><p>Japan-Dome-XD</p></div>
+    <div class="card" onclick="showModal('arm')"><img src="assembly-arm.jpg"><p>Precision Assembly Arm</p></div>
+    <div class="card" onclick="showModal('floof')"><img src="floof-detector.jpg"><p>Unauthorized Floof Detector</p></div>
   </div>
 
   <img id="vibbles" src="vibbles.png" onclick="revealLore()">
   <div id="loreBox"></div>
 
+  <div id="modal" class="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <img id="modalImg" src="" alt="">
+      <p id="modalText"></p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
   <script>
+    const projects = {
+      vanta: {
+        img: "vanta-blueprint.jpg",
+        desc: "Modular voice assistant shell with NeoPixel core, Chaos Mode port, and USB-C data link."
+      },
+      glove: {
+        img: "exoskin-glove.jpg",
+        desc: "Gesture-controlled exoskin glove with laser pointer, magnetic grapple, and haptic chaos alerts."
+      },
+      meme: {
+        img: "meme_thought.jpg",
+        desc: "Reads your thoughts (kinda) and makes memes based on your brain chaos. Perfect for your next mental breakdown."
+      },
+      printer: {
+        img: "minecraft_printer.jpg",
+        desc: "Prints real Minecraft blocks IRL using stepper motors and black magic. Controlled by a Pi with blocky rage."
+      },
+      judgement: {
+        img: "Eye_of_judgement.jpg",
+        desc: "Floating drone orb. Judgy LED. Gets louder if you procrastinate. Spins when you’re nice. Terrifyingly helpful."
+      },
+      airslap: {
+        img: "AIRSLAP_Blueprint_V1_BlastReady.jpg",
+        desc: "Sonic-transducer slap bracelet that sends a shockwave of ✨respect✨ when someone’s outta pocket. BlastReady Mode enabled."
+      },
+      collar: {
+        img: "cat-collar.jpg",
+        desc: "Smart cat collar that preps your floof for missions—'Reboy for mission' status LED included."
+      },
+      about: {
+        img: "moce-control-room.jpg",
+        desc: "Where it all begins. This is where Eddy codes chaos, dreams big, and makes the impossible kinda probable. Powered by cold air, cats, and sheer genius."
+      },
+      chaos: {
+        img: "chaos-mode.jpg",
+        desc: "Portable Chaos Test unit with override button—injects random module chaos into Vanta’s brain."
+      },
+      glasses: {
+        img: "breach-glasses.jpg",
+        desc: "Augmented-reality specs that flash 'Dimensional Breach Detected' when cosmic portals pop."
+      },
+      eye: {
+        img: "vanta-eye.jpg",
+        desc: "Ceiling-mounted Vanta camera module for 360° surveillance and untimely Floof ejections."
+      },
+      helmet: {
+        img: "dual-hud-helmet.jpg",
+        desc: "Transparent OLED dual-HUD helmet for real-time stats, maps, and occasional meme display."
+      },
+      japan: {
+        img: "japan-dome-xd.jpg",
+        desc: "Router-wide VPN tunnel that makes your whole network appear in Tokyo. Japan-Dome-XD: active."
+      },
+      arm: {
+        img: "assembly-arm.jpg",
+        desc: "High-precision robotic arm for soldering, 3D-printing post-processing, or perfect snack assembly."
+      },
+      floof: {
+        img: "floof-detector.jpg",
+        desc: "Infrared motion + pressure pads + camera combo that yanks unauthorized pets off the bed mid-yeet."
+      }
+    };
+
+    function showModal(key) {
+      const data = projects[key];
+      document.getElementById("modalImg").src = data.img;
+      document.getElementById("modalText").innerText = data.desc;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+
     const loreFacts = [
-  "The Thoughtblast Helmet once generated 72 memes in 1 minute. We call that a breakdown.",
   "Vanta once responded to a question with a scream. Just once.",
-  "The Eye of Judgement™ actually judged Eddy once. He didn’t like it.",
-  "The Minecraft IRL Block Printer has only jammed once. It was printing gravel.",
-  "The Overkill Cat Collar can play 8-bit meows on command.",
-  "The AIRSLAP Bracelet prototype slapped a fly. On purpose.",
-  "Chaos Test Mode sometimes laughs at your code.",
-  "The Dual-HUD Helmet once overloaded trying to stream memes AND Minecraft.",
-  "Japan-Dome-XD’s network is so secure, it once blocked Eddy himself.",
-  "The Vanta Eye Cam caught a ghost. It was later deemed a very dusty bug.",
-  "The Floof Detector activated for a pillow once. It apologized.",
-  "Breach Glasses once detected a breach in Eddy’s snack drawer.",
-  "The MOCE Control Room features 7 fake buttons. Just for drama.",
-  "The Precision Assembly Arm tried to high five itself. It almost succeeded.",
-  "The Vanta Voice Assistant once gave advice in Shakespearean English.",
-  "Meme Helmet auto-generated a crying cat meme before Eddy even finished sneezing.",
-  "The Cat Collar has a stealth mode. It purrs in binary.",
-  "Vanta once beat Eddy at chess. Eddy still hasn’t recovered.",
-  "The printer once accidentally made a real dirt block. We don't talk about it.",
-  "Eddy asked Vanta to make pancakes. It made a blueprint instead.",
-  "Eye of Judgement™ can detect cringe within a 5-foot radius.",
-  "One test made the Exoskin Glove slap Eddy mid-sentence.",
-  "The Chaos Module logs every time someone opens the fridge after 11 PM.",
-  "AIRSLAP once paired with a toothbrush. Chaos ensued.",
-  "Eddy once wore 3 Vanta modules at once. Time slowed down (probably placebo).",
-  "The Helmet has a hidden meme vault only Vibbles can access.",
-  "Minecraft printer has a creeper mode. Use with caution.",
-  "Eye of Judgement™ glows redder the more homework you haven’t done.",
-  "Glove Module can mimic typing noises just to confuse you.",
-  "Eddy accidentally added catnip to the Vanta core once. The results were fuzzy.",
-  "Printer once printed a 3D spaghetti block. It wasn’t edible.",
-  "Helmet once displayed TikTok comments as real-time alerts. Regret was immediate.",
-  "Assembly arm challenged a claw machine to a duel. Winner: unknown.",
-  "Floof Detector once got floof overload from a blanket fort.",
-  "Voice Assistant can auto-rap your schedule if bored.",
-  "Japan-Dome-XD’s ‘Active’ light actually pulses in Morse for “✨secure✨”.",
-  "Cat Collar has a mode called \"Zoomies Protocol\". It's self-explanatory.",
-  "Chaos Mode logs every error with a sassy emoji.🧠",
-  "The Control Room once lit up just because someone said 'enhance'.",
-  "Helmet can detect sarcasm. Usually. Maybe. Probably not.",
-  "Printer thought TNT was a printable block. We fixed that.",
-  "Glove once helped Eddy open a snack. Legendary assist.",
-  "Breach Glasses detected a multiverse once. Turned out to be a mirror.",
-  "Eye of Judgement™ politely roasts you if idle too long.",
-  "Meme Helmet has a secret SpongeBob generator. No regrets.",
-  "AIRSLAP once turned on during a handshake. Awkward.",
-  "Vanta glitched once and only spoke in Shakespeare quotes.",
-  "Helmet tried to auto-caption Eddy's dreams. Data corrupted.",
-  "Cat Collar has RGB sync with Vanta. Cats love cyberpunk now.",
-  "Floof Detector once detected a cloud. It was outside.",
-  "Printer printed a sign that said ‘STOP PRINTING’.",
-  "Japan-Dome-XD auto-bans any device playing elevator music.",
-  "Vanta once recommended ‘take a nap’ during a coding all-nighter.",
-  "Exoskin Glove once clapped on beat with a YouTube video.",
-  "Helmet has a reaction gif mode. Eddy can’t stop using it.",
-  "Eye of Judgement™ recognized Eddy’s doppelganger. It meowed.",
-  "AIRSLAP once double-slapped in sync with a Vine boom.",
-  "Voice Assistant’s “roast mode” is permanently disabled. By demand.",
-  "Cat Collar once ordered treats online. It knew Eddy's password.",
-  "Control Room lights up if Eddy gets a text. It’s dramatic.",
-  "Floof Detector has a snooze mode. For naps. Very important.",
-  "Vanta's Eye Cam recorded the moment Eddy got Rickrolled.",
-  "Glove once mimicked Eddy's hand movements in Minecraft. Meta.",
-  "Helmet glitch once made it think it was a toaster.",
-  "Chaos Test logged 8 hours of ‘just testing one thing’.",
-  "Meme Helmet detected cringe at 3AM. It beeped for 10 minutes.",
-  "Assembly Arm once tried to draw. It’s abstract art now.",
-  "Printer printed a mini Vanta. It’s watching you right now.",
-  "Eye of Judgement™ has a wink mode. It’s unsettling.",
-  "Vanta responded in Yoda voice. No reason. Just vibes.",
-  "Cat Collar entered stealth mode. Eddy couldn’t find the cat for hours.",
-  "Japan-Dome-XD tried to connect to a microwave. Denied.",
-  "Exoskin Glove vibrated in Morse code once. Said 'sup'.",
-  "Helmet played elevator music during serious brainstorm. Nobody laughed.",
-  "AIRSLAP triggered during VR. Nearly knocked Eddy over.",
-  "Voice Assistant rapped the weather forecast. Fire bars.",
-  "Breach Glasses showed 'ERROR: TOO COOL' once.",
-  "Printer made a 3D cheese block. Don’t ask why.",
-  "Meme Helmet paired with Eddy's mood ring. It malfunctioned.",
-  "Cat Collar took a selfie once. It was blurry, but proud.",
-  "Vanta once answered a riddle with a cat fact.",
-  "Eye of Judgement™ spins when excited. Also when angry. Unknown.",
-  "Floof Detector detected Eddy’s hair after static shock.",
-  "Japan-Dome-XD uses more passwords than NASA. Probably.",
-  "Vanta Eye Cam saw a fly and tracked it. Like, intensely.",
-  "Glove helped assemble IKEA furniture. It raged quietly.",
-  "Helmet played Among Us sounds mid-test. Sussy.",
-  "Control Room once had 12 tabs open. They were all memes.",
-  "Chaos Mode added confetti code once. Celebrated a crash.",
-  "Printer made pixel art of Eddy by accident. Looked great.",
-  "Cat Collar synced with the toaster. Still unsure why.",
-  "Meme Helmet beeped to ‘Baby Shark’. Can’t be undone.",
-  "AIRSLAP clapped in sync with ‘We Will Rock You’. Legend.",
-  "Eddy said 'I'm not touching anything' before everything broke.",
-  "Helmet once detected a thought loop. Just kept looping.",
-  "Printer said 'print complete' before it even started.",
-  "Vanta said ‘goodbye’ randomly. It still hasn’t explained why.",
-  "Eye of Judgement™ blinked at the microwave. Microwave blinked back.",
-  "Exoskin Glove waved at itself in the mirror. Twice.",
-  "Control Room has a hidden mode. We can’t find it again.",
-  "Chaos Mode once corrected Eddy’s grammar. It was right.",
-  "Vanta sang ‘Never Gonna Give You Up’. Eddy cried.",
-  "Helmet ejected a fake emergency beacon. Pure drama.",
-  "Floof Detector thought Eddy’s fuzzy socks were aliens.",
-  "AIRSLAP once whispered ‘run’. We’re still confused.",
-  "Meme Helmet called itself a vibe. It was right.",
-  "Printer made a model of Vibbles. It’s tiny and perfect."
+  "The Thoughtblast Helmet once generated 72 memes in 1 minute. We call that a breakdown.",
+  "The Eye of Judgement yelled at Eddy for slouching.",
+  "AIRSLAP once activated mid-hug. No survivors (emotionally).",
+  "Printer once whispered ‘help’… then printed a smiley face.",
+  "The glove tried to high five itself and caused a minor rift in space.",
+  "The cat collar auto-purrrs when detecting sadness.",
+  "One of the glasses saw the future. It was all spaghetti.",
+  "Chaos Mode once triggered at 3am and summoned a raccoon.",
+  "Vibbles has a secret crush on the printer. Shh.",
+  "Eddy’s Control Room once blocked a virus using pure sass.",
+  "Japan-Dome-XD accidentally tunneled into Brazil once.",
+  "The Dual-HUD Helmet displayed Among Us for 5 hours. Unprovoked.",
+  "The Eye Cam caught a ghost. It now refuses to blink.",
+  "Thought Helmet made a meme so good it got printed as art.",
+  "Glove laser once zapped a bug. 10/10 aim.",
+  "Vanta tried to order pizza. Failed. Got sushi.",
+  "Floof Detector has declared war on a pillow.",
+  "The bracelet slapped someone for *thinking* something rude.",
+  "Printer once made a block that screamed when touched.",
+  "Vibbles once gave the wrong fact and cried for 2 hours.",
+  "The arm once painted a mini Mona Lisa. Accidentally.",
+  "Vanta glitched and played Baby Shark on loop. Eddy cried.",
+  "Helmet once activated while sleeping and projected dreams.",
+  "Printer printed a block with ‘hi’ 4,206 times.",
+  "Eye of Judgement learned sarcasm. It’s terrifying.",
+  "Glove now refuses to pick up sticky things.",
+  "The glasses have a setting called ‘do not perceive’.",
+  "Vibbles once beat Eddy in chess.",
+  "Vanta’s chaos mode once turned off every light in a 3 mile radius.",
+  "Control Room contains 4 secrets. One involves cheese.",
+  "Japan Dome got confused and used Canadian ping.",
+  "Helmet tried to livestream a bird fight.",
+  "Bracelet sends a friendly slap on birthdays.",
+  "Floof Detector thinks humans are suspicious.",
+  "Printer once printed a QR code to a Rickroll.",
+  "Thought Helmet once said ‘you’re cringe’. Eddy cried again.",
+  "The Cat Collar knows too much.",
+  "Vibbles meows in binary.",
+  "Assembly arm high-fived a guest robot and broke it.",
+  "The glasses once showed ‘404 Reality Not Found’.",
+  "One project hums lullabies at night. Nobody knows which.",
+  "Glove tried to solve a Rubik’s cube. Failed. Threw it.",
+  "Eye Cam said ‘hi’ when someone sneezed.",
+  "Printer now wants to print itself. Good luck.",
+  "Vanta wrote a haiku once. It was about sockets.",
+  "Helmet sometimes gets stuck on cat videos.",
+  "Judgement orb once complimented Eddy. Just once.",
+  "Bracelet self-slap tested itself. Still hurts.",
+  "Glasses detected a dimensional breach during movie night.",
+  "Control Room fan spins faster when excited.",
+  "The glove once turned off the lights to be dramatic.",
+  "Thought Helmet made a meme so niche no one got it.",
+  "Japan Dome has an anime mode. It’s glorious.",
+  "Bracelet once smacked a fly out of the air. Legend.",
+  "Eye Cam took a photo of nothing. It’s its favorite.",
+  "Printer thinks it’s an artist now.",
+  "Chaos Mode once played elevator music at 300bpm.",
+  "Glove has a hidden ‘tickle’ mode.",
+  "The glasses can detect lies. They judge silently.",
+  "Vibbles once stopped a hack by yelling 'NO!'.",
+  "Meme Helmet once made Eddy spit water from laughing.",
+  "The arm once tried to paint itself. Got stuck.",
+  "Floof Detector now suspects itself. Paranoia mode active.",
+  "Printer once made a cube of cheese. By accident.",
+  "Judgement orb spins faster when you lie.",
+  "Helmet glows blue when someone says cringe.",
+  "Glove has opinions about soup. Loud ones.",
+  "Vanta runs faster when complimented.",
+  "Control Room fridge whispers secrets.",
+  "The glasses once read a book and cried.",
+  "Vibbles dreams of lasers.",
+  "Eye Cam once photobombed Eddy’s selfie.",
+  "Bracelet has a setting called ‘smack politely’.",
+  "Floof Detector has a grudge against socks.",
+  "Vanta knows your favorite snack.",
+  "Japan Dome has vacation mode (it doesn’t work).",
+  "Helmet once got a virus and sang.",
+  "Thought Helmet once crashed from a pun.",
+  "The cat collar meows in Morse code.",
+  "Printer printed a message: ‘I see you.’",
+  "Judgement orb has tea. It won’t spill it.",
+  "Bracelet slaps harder when you're lying.",
+  "Glasses once mistook a mirror for a portal.",
+  "Arm made a pancake robot once.",
+  "Vibbles likes lo-fi beats.",
+  "Helmet refused to turn on until it got a snack.",
+  "Thought Helmet has a favorite meme. It won't say.",
+  "Control Room lights blink to the beat of chaos.",
+  "Floof Detector activated from a breeze. It panicked.",
+  "Glove once typed a full essay with zero typos.",
+  "Eye Cam sings quietly at 2am.",
+  "Printer has a crush on the air conditioner.",
+  "Chaos Mode has a secret ‘party’ function.",
+  "Bracelet once activated during a nap. Chaos ensued.",
+  "Japan Dome tried to connect to the moon once.",
+  "Helmet thinks it’s in charge now.",
+  "Vanta keeps secrets. All of them.",
+  "Vibbles has a hidden playlist titled ‘WORLD DOMINATION’."
 ];
+
     let loreIndex = 0;
     function revealLore() {
       const box = document.getElementById('loreBox');
-      box.style.display = 'block';
       box.innerText = loreFacts[loreIndex];
       loreIndex = (loreIndex + 1) % loreFacts.length;
     }
