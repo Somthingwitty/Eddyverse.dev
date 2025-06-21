@@ -12,13 +12,11 @@
       padding: 0;
       text-align: center;
     }
-
     h1 {
       padding: 20px;
       font-size: 3em;
       text-shadow: 0 0 10px #0ff;
     }
-
     .gallery {
       display: flex;
       flex-wrap: wrap;
@@ -26,7 +24,6 @@
       gap: 20px;
       padding: 20px;
     }
-
     .card {
       background: #111;
       border: 2px solid #0ff;
@@ -36,25 +33,21 @@
       width: 180px;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-
     .card:hover {
       transform: scale(1.1);
       box-shadow: 0 0 15px #0ff;
     }
-
     .card img {
       width: 100%;
       height: 120px;
       object-fit: cover;
       border-radius: 8px;
     }
-
     .card p {
       margin: 10px 0 0;
       font-weight: bold;
       color: #0ff;
     }
-
     .modal {
       display: none;
       position: fixed;
@@ -63,11 +56,10 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(0,0,0,0.95);
       justify-content: center;
       align-items: center;
     }
-
     .modal-content {
       background: #111;
       border: 2px solid #0ff;
@@ -77,13 +69,11 @@
       max-width: 500px;
       color: #0ff;
     }
-
     .modal-content img {
       width: 100%;
       border-radius: 8px;
       margin-bottom: 10px;
     }
-
     .close-btn {
       margin-top: 10px;
       padding: 5px 15px;
@@ -93,52 +83,35 @@
       font-size: 1em;
       cursor: pointer;
     }
-
-    #vibbles {
+    #cat-bubble {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 80px;
-      z-index: 9999;
-      animation: floatyBoing 4s ease-in-out infinite;
-      cursor: pointer;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #0ff;
-    }
-
-    @keyframes floatyBoing {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    #loreBox {
-      position: fixed;
-      bottom: 110px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.9);
-      color: #0ff;
-      font-family: monospace;
+      bottom: 80px;
+      left: 10px;
+      background: #000;
       border: 2px solid #0ff;
+      border-radius: 12px;
       padding: 10px;
-      border-radius: 10px;
-      max-width: 250px;
-      z-index: 9998;
-      display: none;
-      box-shadow: 0 0 15px #0ff;
+      width: 250px;
+      box-shadow: 0 0 20px #0ff;
+      z-index: 1000;
+      font-size: 0.8em;
+    }
+    #cat-img {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #0ff;
+      object-fit: cover;
+      box-shadow: 0 0 10px #0ff;
     }
   </style>
 </head>
 <body>
   <h1>🧠 EDDYVERSE PROJECTS</h1>
-
-  <div class="gallery">
-    <!-- Your project cards go here -->
-    <!-- Example card (duplicate & change for each project): -->
-    <div class="card" onclick="showModal('printer')"><img src="minecraft_printer.jpg"><p>Minecraft IRL Block Printer</p></div>
-    <div class="card" onclick="showModal('meme')"><img src="meme_thought.jpg"><p>Meme Thought Helmet</p></div>
-    <div class="card" onclick="showModal('judgement')"><img src="Eye_of_judgement.jpg"><p>Eye of Judgement™</p></div>
-    <!-- Add more cards as needed -->
-  </div>
+  <div class="gallery" id="gallery"></div>
 
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -148,44 +121,80 @@
     </div>
   </div>
 
-  <!-- Vibbles the Floating Lore Cat -->
-  <img id="vibbles" src="vibbles.png" onclick="revealLore()" />
-  <div id="loreBox"></div>
+  <div id="cat-bubble"></div>
+  <img src="vibbles.png" id="cat-img" alt="Vibbles">
 
   <script>
     const projects = {
       printer: {
         img: "minecraft_printer.jpg",
-        desc: "Craft-O-Print: Real blocks, zero chill. Every block you mine in Minecraft? This printer screams 'IRL!' and ejects a cardboard or 3D version. If you mine dirt too much, Vanta prints a sign that says 'TRY HARDER.'"
+        desc: "Prints real Minecraft blocks IRL using stepper motors and black magic. Controlled by a Pi with blocky rage."
       },
       meme: {
         img: "meme_thought.jpg",
-        desc: "Thoughtblast Helmet: Reads your brainwaves. Judges your vibe. Generates memes based on your emotional chaos. Vanta logs your meme history and roasts you if your taste gets predictable."
+        desc: "Reads your thoughts (kinda) and makes memes based on your brain chaos. Perfect for your next mental breakdown."
       },
       judgement: {
         img: "Eye_of_judgement.jpg",
-        desc: "Eye of Judgmint™: A floating orb that watches, waits, and verbally slaps. Gets closer the more you slack off. Spins in joy when complimented. Vanta gave it free will. That may have been a mistake."
+        desc: "Floating drone orb. Judgy LED. Gets louder if you procrastinate. Spins when you’re nice. Terrifyingly helpful."
+      },
+      floof: {
+        img: "floof-detector.jpg",
+        desc: "Infrared motion + pressure pads + camera combo that yanks unauthorized pets off the bed mid-yeet."
+      },
+      arm: {
+        img: "assembly-arm.jpg",
+        desc: "High-precision robotic arm for soldering, 3D-printing post-processing, or perfect snack assembly."
+      },
+      japan: {
+        img: "japan-dome-xd.jpg",
+        desc: "Router-wide VPN tunnel that makes your whole network appear in Tokyo. Japan-Dome-XD: active."
+      },
+      helmet: {
+        img: "dual-hud-helmet.jpg",
+        desc: "Transparent OLED dual-HUD helmet for real-time stats, maps, and occasional meme display."
+      },
+      vanta: {
+        img: "vanta-blueprint.jpg",
+        desc: "Modular voice assistant shell with NeoPixel core, Chaos Mode port, and USB-C data link."
+      },
+      glove: {
+        img: "exoskin-glove.jpg",
+        desc: "Gesture-controlled exoskin glove with laser pointer, magnetic grapple, and haptic chaos alerts."
+      },
+      glasses: {
+        img: "breach-glasses.jpg",
+        desc: "Augmented-reality specs that flash 'Dimensional Breach Detected' when cosmic portals pop."
+      },
+      eye: {
+        img: "vanta-eye.jpg",
+        desc: "Ceiling-mounted Vanta camera module for 360° surveillance and untimely Floof ejections."
+      },
+      chaos: {
+        img: "chaos-mode.jpg",
+        desc: "Portable Chaos Test unit with override button—injects random module chaos into Vanta’s brain."
+      },
+      collar: {
+        img: "cat-collar.jpg",
+        desc: "Smart cat collar that preps your floof for missions—'Reboy for mission' status LED included."
+      },
+      about: {
+        img: "moce-control-room.jpg",
+        desc: "Where it all begins. This is where Eddy codes chaos, dreams big, and makes the impossible kinda probable. Powered by cold air, cats, and sheer genius."
+      },
+      airslap: {
+        img: "AIRSLAP_Blueprint_V1_BlastRead.jpg",
+        desc: "Sonic-transducer slap bracelet that sends a shockwave of ✨respect✨ when someone’s outta pocket. BlastReady Mode enabled."
       }
-      // Add the rest of your projects here
     };
 
     const loreFacts = [
-      "Vanta was originally powered by catnip and sarcasm.",
-      "Eye of Judgmint gets cranky if you call it 'Google Cam.'",
       "The Thoughtblast Helmet once generated 72 memes in 1 minute. We call that a breakdown.",
-      "The IRL Block Printer once printed a creeper. It’s still hissing.",
-      "Vibbles once judged a visitor so hard, their mouse disconnected.",
-      "AIRSLAP isn’t legal in 3 simulated realities."
+      "Japan-Dome-XD caused Eddy's smart fridge to believe it's in Shibuya.",
+      "The Overkill Cat Collar glows brighter the sassier the cat gets.",
+      "Chaos Test Mode has a 12% chance to start Vanta rapping. Badly.",
+      "Eddy once tried to connect AIRSLAP to a toaster. It slapped back."
     ];
-
-    let loreIndex = 0;
-
-    function revealLore() {
-      const box = document.getElementById('loreBox');
-      box.style.display = 'block';
-      box.innerText = loreFacts[loreIndex];
-      loreIndex = (loreIndex + 1) % loreFacts.length;
-    }
 
     function showModal(key) {
       const data = projects[key];
@@ -197,7 +206,24 @@
     function closeModal() {
       document.getElementById("modal").style.display = "none";
     }
+
+    function updateLore() {
+      const lore = loreFacts[Math.floor(Math.random() * loreFacts.length)];
+      document.getElementById("cat-bubble").innerText = lore;
+    }
+
+    // Generate cards
+    const gallery = document.getElementById("gallery");
+    for (const key in projects) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.setAttribute("onclick", `showModal('${key}')`);
+      card.innerHTML = `<img src="${projects[key].img}"><p>${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>`;
+      gallery.appendChild(card);
+    }
+
+    updateLore();
+    setInterval(updateLore, 10000);
   </script>
 </body>
 </html>
-
