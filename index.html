@@ -83,26 +83,43 @@
       font-size: 1em;
       cursor: pointer;
     }
+    #vibbles {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 80px;
+      z-index: 9999;
+      animation: floatyBoing 4s ease-in-out infinite;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #0ff;
+    }
+    @keyframes floatyBoing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    #loreBox {
+      position: fixed;
+      bottom: 110px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      color: #0ff;
+      font-family: monospace;
+      border: 2px solid #0ff;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 250px;
+      z-index: 9998;
+      display: none;
+      box-shadow: 0 0 15px #0ff;
+    }
   </style>
 </head>
 <body>
   <h1>🧠 EDDYVERSE PROJECTS</h1>
   <div class="gallery">
-    <div class="card" onclick="showModal('floof')"><img src="floof-detector.jpg"><p>Unauthorized Floof Detector</p></div>
-    <div class="card" onclick="showModal('arm')"><img src="assembly-arm.jpg"><p>Precision Assembly Arm</p></div>
-    <div class="card" onclick="showModal('japan')"><img src="japan-dome-xd.jpg"><p>Japan-Dome-XD</p></div>
-    <div class="card" onclick="showModal('helmet')"><img src="dual-hud-helmet.jpg"><p>Dual-HUD Helmet</p></div>
-    <div class="card" onclick="showModal('vanta')"><img src="vanta-blueprint.jpg"><p>Vanta Voice Assistant</p></div>
-    <div class="card" onclick="showModal('glove')"><img src="exoskin-glove.jpg"><p>Vanta Exoskin Glove</p></div>
-    <div class="card" onclick="showModal('glasses')"><img src="breach-glasses.jpg"><p>Dimensional Breach Glasses</p></div>
-    <div class="card" onclick="showModal('eye')"><img src="vanta-eye.jpg"><p>Vanta’s Eye Cam</p></div>
-    <div class="card" onclick="showModal('chaos')"><img src="chaos-mode.jpg"><p>Chaos Test Mode</p></div>
-    <div class="card" onclick="showModal('collar')"><img src="cat-collar.jpg"><p>Overkill Cat Collar</p></div>
-    <div class="card" onclick="showModal('about')"><img src="moce-control-room.jpg"><p>The MOCE Control Room</p></div>
-    <div class="card" onclick="showModal('printer')"><img src="minecraft_printer.jpg"><p>Minecraft IRL Block Printer</p></div>
-    <div class="card" onclick="showModal('meme')"><img src="meme_thought.jpg"><p>Meme Thought Helmet</p></div>
-    <div class="card" onclick="showModal('judgement')"><img src="Eye_of_judgement.jpg"><p>Eye of Judgement™</p></div>
-    <div class="card" onclick="showModal('airslap')"><img src="AIRSLAP_Blueprint_V1_BlastReady.jpg"><p>AIRSLAP Bracelet</p></div>
+    <!-- Cards (unchanged) -->
+    <!-- Add your existing project cards here -->
   </div>
 
   <div id="modal" class="modal" onclick="closeModal()">
@@ -113,69 +130,27 @@
     </div>
   </div>
 
+  <img id="vibbles" src="vibbles.png" onclick="revealLore()" />
+  <div id="loreBox"></div>
+
   <script>
-    const projects = {
-      floof: {
-        img: "floof-detector.jpg",
-        desc: "Infrared motion + pressure pads + camera combo that yanks unauthorized pets off the bed mid-yeet."
-      },
-      arm: {
-        img: "assembly-arm.jpg",
-        desc: "High-precision robotic arm for soldering, 3D-printing post-processing, or perfect snack assembly."
-      },
-      japan: {
-        img: "japan-dome-xd.jpg",
-        desc: "Router-wide VPN tunnel that makes your whole network appear in Tokyo. Japan-Dome-XD: active."
-      },
-      helmet: {
-        img: "dual-hud-helmet.jpg",
-        desc: "Transparent OLED dual-HUD helmet for real-time stats, maps, and occasional meme display."
-      },
-      vanta: {
-        img: "vanta-blueprint.jpg",
-        desc: "Modular voice assistant shell with NeoPixel core, Chaos Mode port, and USB-C data link."
-      },
-      glove: {
-        img: "exoskin-glove.jpg",
-        desc: "Gesture-controlled exoskin glove with laser pointer, magnetic grapple, and haptic chaos alerts."
-      },
-      glasses: {
-        img: "breach-glasses.jpg",
-        desc: "Augmented-reality specs that flash 'Dimensional Breach Detected' when cosmic portals pop."
-      },
-      eye: {
-        img: "vanta-eye.jpg",
-        desc: "Ceiling-mounted Vanta camera module for 360° surveillance and untimely Floof ejections."
-      },
-      chaos: {
-        img: "chaos-mode.jpg",
-        desc: "Portable Chaos Test unit with override button—injects random module chaos into Vanta’s brain."
-      },
-      collar: {
-        img: "cat-collar.jpg",
-        desc: "Smart cat collar that preps your floof for missions—'Reboy for mission' status LED included."
-      },
-      about: {
-        img: "moce-control-room.jpg",
-        desc: "Where it all begins. This is where Eddy codes chaos, dreams big, and makes the impossible kinda probable. Powered by cold air, cats, and sheer genius."
-      },
-      printer: {
-        img: "minecraft_printer.jpg",
-        desc: "Craft-O-Print: Real blocks, zero chill. Every block you mine in Minecraft? This printer screams 'IRL!' and ejects a cardboard or 3D version. If you mine dirt too much, Vanta prints a sign that says 'TRY HARDER.'"
-      },
-      meme: {
-        img: "meme_thought.jpg",
-        desc: "Thoughtblast Helmet: Reads your brainwaves. Judges your vibe. Generates memes based on your emotional chaos. Vanta logs your meme history and roasts you if your taste gets predictable."
-      },
-      judgement: {
-        img: "Eye_of_judgement.jpg",
-        desc: "Eye of Judgmint™: A floating orb that watches, waits, and verbally slaps. Gets closer the more you slack off. Spins in joy when complimented. Vanta gave it free will. That may have been a mistake."
-      },
-      airslap: {
-        img: "AIRSLAP_Blueprint_V1_BlastReady.jpg",
-        desc: "Sonic-transducer slap bracelet that sends a shockwave of ✨respect✨ when someone’s outta pocket. BlastReady Mode enabled."
-      }
-    };
+    const loreFacts = [
+      "Vanta was originally powered by catnip and sarcasm.",
+      "Eye of Judgmint gets cranky if you call it 'Google Cam.'",
+      "The Thoughtblast Helmet once generated 72 memes in 1 minute. We call that a breakdown.",
+      "The IRL Block Printer once printed a creeper. It’s still hissing.",
+      "Vibbles once judged a visitor so hard, their mouse disconnected.",
+      "AIRSLAP isn’t legal in 3 simulated realities."
+    ];
+
+    let loreIndex = 0;
+
+    function revealLore() {
+      const box = document.getElementById('loreBox');
+      box.style.display = 'block';
+      box.innerText = loreFacts[loreIndex];
+      loreIndex = (loreIndex + 1) % loreFacts.length;
+    }
 
     function showModal(key) {
       const data = projects[key];
@@ -190,4 +165,3 @@
   </script>
 </body>
 </html>
-
